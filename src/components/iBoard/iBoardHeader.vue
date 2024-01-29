@@ -1,16 +1,18 @@
 <template>
-  <div class="stage__header" :style="borderColorStyle">
-    <div class="stage__title">
+  <div :class="boardHeaderClassList" :style="borderColorStyle">
+    <div class="flex items-center font-bold text-2xl gap-1 truncate">
       <div>{{ board.title }}</div>
-      <div class="stage__actions">
-        <div class="stage__tasks_counter">{{ boardTasksCounter }}</div>
-        <div class="stage__remove" @click="removeStage">
+      <div class="flex flex-col gap-1">
+        <div :class="boardTaskCounterClassList">
+          {{ boardTasksCounter }}
+        </div>
+        <div class="cursor-pointer w-5 h-5" @click="removeStage">
           <img src="../../../public/trash.svg" alt="trash" />
         </div>
       </div>
     </div>
 
-    <i-button width="35px" height="35px" :border-color="getRandomPastelColor()" @click="addNewTask"
+    <i-button :border-color="getRandomPastelColor()" class="w-9 h-9 rounded-md" @click="addNewTask"
       >+</i-button
     >
   </div>
@@ -22,7 +24,7 @@ import { useAppStore } from '@/stores/appStore.js'
 import iButton from '@/components/iButton.vue'
 const props = defineProps({
   board: {
-    type: String,
+    type: Object,
     required: true
   }
 })
@@ -40,49 +42,9 @@ function removeStage() {
 function addNewTask() {
   emit('addTask')
 }
+const boardHeaderClassList =
+  'w-full px-2.5 py-3.5 border-1 rounded-md border-solid border-gray-100 bg-white text-black flex max-h-24 border-t-8 justify-between items-center gap-3'
+const boardTaskCounterClassList =
+  'cursor-auto w-5 h-5 flex justify-center items-center text-base rounded-sm border border-gray-100 border-solid'
 </script>
-<style lang="scss" scoped>
-.stage__header {
-  width: 100%;
-  padding: 15px 10px;
-  border: 1px solid gray;
-  border-radius: 5px;
-  background-color: #fff;
-  color: #000;
-  display: flex;
-  max-height: 100px;
-  border-top-width: 10px;
-  border-top-style: solid;
-  justify-content: space-between;
-  align-items: center;
-}
-.stage__title {
-  font-weight: bold;
-  font-size: 24px;
-  display: flex;
-  align-items: center;
-}
-
-.stage__tasks_counter {
-  width: 20px;
-  height: 20px;
-  align-items: center;
-  transform: translateY(-50%);
-  border: 1px solid rgb(226, 223, 223);
-  font-size: 16px;
-  text-align: center;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  border-radius: 5px;
-}
-.stage__actions {
-  display: flex;
-  flex-direction: column;
-}
-.stage__remove {
-  width: 20px;
-  height: 20px;
-  cursor: pointer;
-}
-</style>
+<style lang="scss" scoped></style>

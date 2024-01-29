@@ -1,13 +1,8 @@
 <template>
-  <div class="boards__container">
+  <div class="flex flex-wrap w-full gap-5">
     <i-board v-for="board in boards" :key="board.id" :board="board" />
-    <i-button
-      class="add_board"
-      width="50px"
-      height="50px"
-      border-color="purple"
-      @click="openAddBoardModal"
-      >+ Add</i-button
+    <i-button class="absolute bottom-3 right-3 rounded-md bg-purple-400" @click="openAddBoardModal"
+      >Add</i-button
     >
     <i-modal
       v-if="openModal"
@@ -32,6 +27,7 @@ const { boards } = storeToRefs(useAppStore())
 const { addBoard } = useAppStore()
 const inputValue = ref('')
 const openModal = ref(false)
+
 function openAddBoardModal() {
   openModal.value = true
 }
@@ -49,17 +45,4 @@ function saveHandler() {
   }
 }
 </script>
-<style lang="scss" scoped>
-.boards__container {
-  display: flex;
-  gap: 20px;
-  width: 100%;
-  flex-wrap: wrap;
-  min-height: 100vh;
-}
-.add_board {
-  position: absolute;
-  bottom: 20px;
-  right: 20px;
-}
-</style>
+<style lang="scss" scoped></style>

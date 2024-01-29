@@ -10,8 +10,12 @@
           <slot></slot>
         </div>
         <div class="modal-footer">
-          <i-button background-color="#8CCB5E" @click="emit('save')">Сохранить</i-button>
-          <i-button background-color="#F34723" @click="emit('close')">Отмена</i-button>
+          <i-button class="bg-green-100 border-green-500 rounded-md" @click="emit('save')"
+            >Сохранить</i-button
+          >
+          <i-button class="bg-red-100 border-red-500 rounded-md" @click="emit('close')"
+            >Отмена</i-button
+          >
         </div>
       </div>
     </div>

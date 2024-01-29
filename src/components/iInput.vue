@@ -1,15 +1,15 @@
 <template>
-  <div class="input__container">
-    <label v-if="label" class="input__label" :for="id">{{ label }}</label>
+  <div class="w-full flex justify-end items-center relative hover:border-orange-400">
+    <label v-if="label" class="mr-1" :for="id">{{ label }}</label>
     <input
       :type="type"
       :id="id"
       :placeholder="placeholder"
       :value="modelValue"
-      class="input__textField"
+      class="w-full transition-all border border-solid border-gray-300 rounded-md focus:border-orange-400 p-2"
+      :style="computedStyle"
       @input="$emit('update:model-value', $event.target.value)"
     />
-    <i v-if="icon" :class="computedIconClasses"></i>
   </div>
 </template>
 <script setup>
@@ -35,48 +35,15 @@ const props = defineProps({
     type: String,
     required: true
   },
-  icon: {
-    type: String,
-    default: ''
+
+  borderless: {
+    type: Boolean,
+    default: false
   }
 })
-const computedIconClasses = computed(() =>
-  props.icon ? `${props.icon} input__icon` : 'input__icon'
+
+const computedStyle = computed(() =>
+  props.borderless ? 'border:none; border-bottom:1px solid black; border-radius:0px' : ''
 )
 </script>
-<style lang="scss" scoped>
-.input__container {
-  display: flex;
-  justify-content: flex-end;
-  align-items: center;
-  position: relative;
-  &:hover {
-    .input__textField {
-      border: 1px solid rgb(255, 181, 97);
-    }
-    .input__icon {
-      color: rgb(255, 181, 97);
-    }
-  }
-}
-.input__textField {
-  border: 1px solid gray;
-  padding: 5px 30px 5px 10px;
-  border-radius: 5px;
-  transition: all 0.3s ease;
-  flex: 1;
-  &:focus {
-    border: 1px solid rgb(255, 181, 97);
-  }
-}
-.input__label {
-  margin-right: 5px;
-}
-.input__icon {
-  position: absolute;
-  top: 50%;
-  right: 10px;
-  transform: translateY(-50%);
-  transition: all 0.3s ease;
-}
-</style>
+<style lang="scss" scoped></style>
