@@ -10,11 +10,19 @@ export const useAppStore = defineStore('appStore', () => {
   ])
 
   function addBoard(title) {
-    boards.value.push({ id: generateId(), title })
+    boards.value.push({ id: generateId(), title, tasks: [] })
   }
   function removeBoard(id) {
     boards.value = boards.value.filter((el) => el.id !== id)
   }
+  function addNewTaskInStorage({ taskName, stageId }) {
+    boards.value = boards.value.map((el) => {
+      if (el.id === stageId) {
+        el.tasks.push({ title: taskName })
+      }
+      return el
+    })
+  }
 
-  return { boards, addBoard, removeBoard }
+  return { boards, addBoard, removeBoard, addNewTaskInStorage }
 })

@@ -3,43 +3,55 @@
     <div class="modal-dialog">
       <div class="modal-content">
         <div class="modal-header">
-          <h3 class="modal-title">Название</h3>
-          <a href="#close" title="Close" class="close" @click="emit('close')">×</a>
+          <h3 class="modal-title">{{ title }}</h3>
+          <span class="close" @click="emit('close')">×</span>
         </div>
         <div class="modal-body">
-          <p>Содержимое модального окна...</p>
+          <slot></slot>
+        </div>
+        <div class="modal-footer">
+          <i-button background-color="#8CCB5E" @click="emit('save')">Сохранить</i-button>
+          <i-button background-color="#F34723" @click="emit('close')">Отмена</i-button>
         </div>
       </div>
     </div>
   </div>
 </template>
 <script setup>
-defineEmits(['close'])
+import iButton from '@/components/iButton.vue'
+const emit = defineEmits(['close', 'save'])
+defineProps({
+  title: {
+    type: String,
+    required: true
+  }
+})
 </script>
 <style lang="scss" scoped>
 .modal {
-  position: fixed; /* фиксированное положение */
+  position: fixed;
   top: 0;
   right: 0;
   bottom: 0;
   left: 0;
-  background: rgba(0, 0, 0, 0.5); /* цвет фона */
+  background: rgba(0, 0, 0, 0.5);
   z-index: 1050;
-
-  -webkit-transition: opacity 200ms ease-in;
-  -moz-transition: opacity 200ms ease-in;
-  transition: opacity 200ms ease-in; /* анимация перехода */
-  pointer-events: none; /* элемент невидим для событий мыши */
   margin: 0;
   padding: 0;
 }
-/* при отображении модального окно */
 
-/* ширина модального окна и его отступы от экрана */
 .modal-dialog {
   position: relative;
   width: auto;
   margin: 10px;
+}
+.modal-footer {
+  display: flex;
+  width: 100%;
+  align-items: center;
+  gap: 20px;
+  justify-content: center;
+  padding: 0px 15px 15px;
 }
 @media (min-width: 576px) {
   .modal-dialog {
@@ -50,18 +62,9 @@ defineEmits(['close'])
 /* свойства для блока, содержащего контент модального окна */
 .modal-content {
   position: relative;
-  display: -webkit-box;
-  display: -webkit-flex;
-  display: -ms-flexbox;
   display: flex;
-  -webkit-box-orient: vertical;
-  -webkit-box-direction: normal;
-  -webkit-flex-direction: column;
-  -ms-flex-direction: column;
   flex-direction: column;
   background-color: #fff;
-  -webkit-background-clip: padding-box;
-  background-clip: padding-box;
   border: 1px solid rgba(0, 0, 0, 0.2);
   border-radius: 0.3rem;
   outline: 0;
@@ -72,19 +75,10 @@ defineEmits(['close'])
     box-shadow: 0 5px 15px rgba(0, 0, 0, 0.5);
   }
 }
-/* свойства для заголовка модального окна */
+
 .modal-header {
-  display: -webkit-box;
-  display: -webkit-flex;
-  display: -ms-flexbox;
   display: flex;
-  -webkit-box-align: center;
-  -webkit-align-items: center;
-  -ms-flex-align: center;
   align-items: center;
-  -webkit-box-pack: justify;
-  -webkit-justify-content: space-between;
-  -ms-flex-pack: justify;
   justify-content: space-between;
   padding: 15px;
   border-bottom: 1px solid #eceeef;
@@ -96,7 +90,7 @@ defineEmits(['close'])
   font-size: 1.25rem;
   font-weight: 500;
 }
-/* свойства для кнопки "Закрыть" */
+
 .close {
   font-family: sans-serif;
   font-size: 24px;
@@ -108,14 +102,9 @@ defineEmits(['close'])
   cursor: pointer;
   text-decoration: none;
 }
-/* свойства для кнопки "Закрыть" при нахождении её в фокусе или наведении */
 
-/* свойства для блока, содержащего основное содержимое окна */
 .modal-body {
   position: relative;
-  -webkit-box-flex: 1;
-  -webkit-flex: 1 1 auto;
-  -ms-flex: 1 1 auto;
   flex: 1 1 auto;
   padding: 15px;
   overflow: auto;

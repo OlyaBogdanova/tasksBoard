@@ -10,22 +10,27 @@ const props = defineProps({
   },
   borderColor: {
     type: String,
-    default: 'gary'
+    default: 'gray'
+  },
+  backgroundColor: {
+    type: String,
+    default: 'transparent'
   },
   width: {
     type: String,
-    default: '20px'
+    default: 'fit-content'
   },
   height: {
     type: String,
-    default: '20px'
+    default: 'fit-content'
   }
 })
 const computedBtnStyled = computed(() => ({
   'border-radius': props.borderRadius,
   'border-color': props.borderColor,
   width: props.width,
-  height: props.height
+  height: props.height,
+  'background-color': props.backgroundColor
 }))
 </script>
 <style lang="scss" scoped>
@@ -38,6 +43,7 @@ const computedBtnStyled = computed(() => ({
   font-size: 16px;
   padding: 5px;
   transition: all 0.3s ease;
+  cursor: pointer;
   &:hover {
     filter: contrast(200%);
   }

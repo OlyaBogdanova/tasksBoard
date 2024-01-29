@@ -1,16 +1,24 @@
 <template>
-  <div class="board__header" :style="borderColorStyle">
-    <div class="board__title">
+  <div class="stage__header" :style="borderColorStyle">
+    <div class="stage__title">
       <div>{{ board.title }}</div>
-      <div class="tasks_counter">{{ boardTasksCounter }}</div>
+      <div class="stage__actions">
+        <div class="stage__tasks_counter">{{ boardTasksCounter }}</div>
+        <div class="stage__remove" @click="removeStage">
+          <img src="../../../public/trash.svg" alt="trash" />
+        </div>
+      </div>
     </div>
 
-    <iButton width="35px" height="35px" :border-color="getRandomPastelColor()">+</iButton>
+    <i-button width="35px" height="35px" :border-color="getRandomPastelColor()" @click="addNewTask"
+      >+</i-button
+    >
   </div>
 </template>
 <script setup>
 import { computed } from 'vue'
 import { getRandomPastelColor } from '@/functions/functions.js'
+import { useAppStore } from '@/stores/appStore.js'
 import iButton from '@/components/iButton.vue'
 const props = defineProps({
   board: {
@@ -18,15 +26,25 @@ const props = defineProps({
     required: true
   }
 })
+const emit = defineEmits(['addTask'])
+const { removeBoard } = useAppStore()
 const borderColorStyle = computed(() => ({
   'border-color': getRandomPastelColor()
 }))
 const boardTasksCounter = computed(() => props.board.tasks.length)
+
+function removeStage() {
+  removeBoard(props.board.id)
+}
+
+function addNewTask() {
+  emit('addTask')
+}
 </script>
 <style lang="scss" scoped>
-.board__header {
+.stage__header {
   width: 100%;
-  padding: 10px;
+  padding: 15px 10px;
   border: 1px solid gray;
   border-radius: 5px;
   background-color: #fff;
@@ -38,14 +56,14 @@ const boardTasksCounter = computed(() => props.board.tasks.length)
   justify-content: space-between;
   align-items: center;
 }
-.board__title {
+.stage__title {
   font-weight: bold;
   font-size: 24px;
   display: flex;
   align-items: center;
 }
 
-.tasks_counter {
+.stage__tasks_counter {
   width: 20px;
   height: 20px;
   align-items: center;
@@ -57,5 +75,14 @@ const boardTasksCounter = computed(() => props.board.tasks.length)
   justify-content: center;
   align-items: center;
   border-radius: 5px;
+}
+.stage__actions {
+  display: flex;
+  flex-direction: column;
+}
+.stage__remove {
+  width: 20px;
+  height: 20px;
+  cursor: pointer;
 }
 </style>
