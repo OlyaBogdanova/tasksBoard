@@ -3,7 +3,8 @@
     <div class="modal-dialog">
       <div class="modal-content">
         <div class="modal-header">
-          <h3 class="modal-title">{{ title }}</h3>
+          <h3 v-if="title" class="modal-title">{{ title }}</h3>
+          <slot name="header"></slot>
           <span class="close" @click="emit('close')">×</span>
         </div>
         <div class="modal-body">
